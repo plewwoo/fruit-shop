@@ -1,0 +1,16 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<center>
+    <div class="card" style="width:400px">
+        <img class="card-img-top" src="{{ user.profile.photo.url }}" alt="Card image">
+        <!-- <img class="card-img-top" src="https://i.pinimg.com/564x/4f/0b/f2/4f0bf26b6516fd99cc931366d3f54eab.jpg"
+        alt="Card image"> -->
+        <div class="card-body">
+            <h4 class="card-title">{{ user.first_name }} {{ user.last_name }}</h4>
+        </div>
+    </div>
+</center>
+{% endif %}
+{% endblock content %}

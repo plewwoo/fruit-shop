@@ -1,0 +1,49 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container" style="margin-bottom: 10px;">
+    <h2>Add Product Page</h2>
+    <p>Admin Only</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">Name :</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price :</label>
+            <input type="text" class="form-control" id="price" name="price">
+        </div>
+
+        <div class="form-group">
+            <label for="detail">Details :</label>
+            <textarea class="form-control" rows="5" id="detail" name="detail"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="imgUrl">ImageUrl :</label>
+            <input type="text" class="form-control" id="imgUrl" name="imgUrl">
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity :</label>
+            <input type="text" class="form-control" id="quantity" name="quantity">
+        </div>
+
+        <div class="form-group">
+            <label for="unit">Unit :</label>
+            <input type="text" class="form-control" id="unit" name="unit">
+        </div>
+
+        <div class="form-group">
+            <label for="imgUpload">Upload Image :</label>
+            <br>
+            <input type="file" id="imgUpload" name="imgUpload">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+<center>
+    <h1>Edit Cart</h1>
+</center>
+
+{% if status == 'delete' %}
+<div class="alert alert-danger">
+    <strong>Delete Order Completely!</strong> หากต้องการสินค้าเพิ่มกรุณากดสั่งซื้อใหม่
+</div>
+{% endif %}
+
+<form method="POST" id="formSave">
+    {% csrf_token %}
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <!-- <th scope="col">Action</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in cart%}
+            <tr>
+                <th scope="row">{{ product.productId }}</th>
+                <td>{{ product.ProductName }}</td>
+                <td>{{ product.price | intcomma}}</td>
+                <td><input type="text" name="pd_{{ product.productId }}" value="{{ product.quantity }}"></td>
+                <!-- <td>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <input type="hidden" name="checkSave" value="checkSave">
+
+</form>
+<div class="row" style="padding: 0 15px;">
+    <button type="submit" form="formSave" class="btn btn-primary">Save</button>
+
+    <form method="POST" id="formClear" style="padding: 0 15px;">
+        {% csrf_token %}
+        <input type="hidden" name="clear" value="clear">
+        <button type="submit" form="formClear" class="btn btn-danger">Delete All Product</button>
+    </form>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,60 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container" style="margin-bottom: 10px;">
+    <h2>Address</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">First - Last Name :</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="tel">Tel :</label>
+            <input type="text" class="form-control" id="tel" name="tel">
+        </div>
+        <div class="form-group">
+            <label for="address">Address :</label>
+            <textarea class="form-control" rows="5" id="address" name="address"></textarea>
+        </div>
+
+        <hr>
+        <p>Shipping Info</p>
+
+        <div class="form-check">
+            <label for="form-check label" for="ems">
+                <input type="radio" name="shipping" id="ems" value="ems"> EMS (50)
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="form-check label" for="register">
+                <input type="radio" name="shipping" id="register" value="register"> ลงทะเบียน (30)
+            </label>
+        </div>
+
+        <hr>
+        <p>Payment Info</p>
+
+        <div class="form-check">
+            <label for="form-check label" for="tranfer">
+                <input type="radio" name="payment" id="tranfer" value="tranfer"> โอนเงินผ่านบัญชีธนาคาร
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="form-check label" for="cod">
+                <input type="radio" name="payment" id="cod" value="cod"> เก็บเงินปลายทาง
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="ps">P.S. :</label>
+            <textarea class="form-control" rows="5" id="ps" name="ps"></textarea>
+        </div>
+
+        <input type="hidden" name="page" value="info">
+
+        <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+</div>
+{% endblock content %}

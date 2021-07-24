@@ -1,0 +1,85 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+
+<h2>My Order</h2>
+<p>Order ID : {{ order.orderId }}</p>
+
+<center>
+    <h1>Shipping Info</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Tel</th>
+            <th scope="col">Address</th>
+            <th scope="col">Shipping</th>
+            <th scope="col">Payment</th>
+            <th scope="col">P.S.</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ order.name }}</td>
+            <td>{{ order.tel }}</td>
+            <td>{{ order.address }}</td>
+            {% if order.shipping == 'ems' %}
+            <td>EMS</td>
+            {% else %}
+            <td>ลงทะเบียน</td>
+            {% endif %}
+            {% if order.payment == 'tranfer' %}
+            <td>โอนเงินผ่านบัญชีธนาคาร</td>
+            {% else %}
+            <td>เก็บเงินปลายทาง</td>
+            {% endif %}
+            <td>{{ order.ps }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<center>
+    <h1>Cart</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in orderList %}
+        <tr>
+            <th scope="row">{{ product.productId }}</th>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.price | intcomma}}</td>
+            <td>{{ product.quantity | intcomma}}</td>
+            <td>{{ product.total | intcomma}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <h5>Total</h5>
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                <h5>{{ count }}</h5>
+            </td>
+            <td>
+                <h5>{{ total | intcomma }}</h5>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>Shipcost : {{ order.shipcost }}</p>
+<h3>Total Price : {{ total|add:order.shipcost | intcomma }}</h3>
+
+{% endblock content %}

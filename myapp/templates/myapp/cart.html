@@ -1,0 +1,66 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+<center>
+    <h1>Cart</h1>
+</center>
+
+{% if status == 'delete' %}
+<div class="alert alert-danger">
+    <strong>Delete Order Completely!</strong> หากต้องการสินค้าเพิ่มกรุณากดสั่งซื้อใหม่
+</div>
+{% endif %}
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Date & Time</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in cart%}
+        <tr>
+            <td>{{ product.stamp }}</td>
+            <th scope="row">{{ product.productId }}</th>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.price | intcomma}}</td>
+            <td>{{ product.quantity | intcomma}}</td>
+            <td>{{ product.total | intcomma}}</td>
+
+            <td>
+                <form method="POST" id="form{{ product.productId }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="productId" value="{{ product.productId }}">
+                    <button type="submit" form="form{{ product.productId }}" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <h5>Total</h5>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <h5>{{ count }}</h5>
+            </td>
+            <td>
+                <h5>{{ total | intcomma }}</h5>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<div class="text-left">
+    <a class="btn btn-primary" href="{% url 'editcart-page' %}">Edit Order</a>
+    <a class="btn btn-success" href="{% url 'checkout-page' %}">Checkout</a>
+</div>
+{% endblock content %}

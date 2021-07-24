@@ -1,0 +1,99 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+
+<center>
+    <h1>Shipping Info</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Tel</th>
+            <th scope="col">Address</th>
+            <th scope="col">Shipping</th>
+            <th scope="col">Payment</th>
+            <th scope="col">P.S.</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ tel }}</td>
+            <td>{{ address }}</td>
+            {% if shipping == 'ems' %}
+            <td>EMS</td>
+            {% else %}
+            <td>ลงทะเบียน</td>
+            {% endif %}
+            {% if payment == 'tranfer' %}
+            <td>โอนเงินผ่านบัญชีธนาคาร</td>
+            {% else %}
+            <td>เก็บเงินปลายทาง</td>
+            {% endif %}
+            <td>{{ ps }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<center>
+    <h1>Cart</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Date & Time</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in cart%}
+        <tr>
+            <td>{{ product.stamp }}</td>
+            <th scope="row">{{ product.productId }}</th>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.price | intcomma}}</td>
+            <td>{{ product.quantity | intcomma}}</td>
+            <td>{{ product.total | intcomma}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <h5>Total</h5>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <h5>{{ count }}</h5>
+            </td>
+            <td>
+                <h5>{{ total | intcomma }}</h5>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="text-left">
+
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="hidden" name="tel" value="{{ tel }}">
+    <input type="hidden" name="address" value="{{ address }}">
+    <input type="hidden" name="shipping" value="{{ shipping }}">
+    <input type="hidden" name="payment" value="{{ payment }}">
+    <input type="hidden" name="ps" value="{{ ps }}">
+    <input type="hidden" name="page" value="confirm">
+
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>
+
+{% endblock content %}

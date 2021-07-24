@@ -1,0 +1,54 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <center>
+        <h1>Product</h1>
+    </center>
+    <div class="row">
+        {% for product in AllProduct %}
+        <div class="col-sm-4" style="padding: 10px;">
+            <div class="card" style="width: 350px;">
+                {% if product.img %}
+                <img class="card-img-top" src="{{ product.img.url }}" alt="Card image" width="300">
+                {% elif product.imgUrl != None %}
+                <img class="card-img-top" src="{{ product.imgUrl }}" alt="Card image" width="300">
+                {% else %}
+                <img class="card-img-top" src="/media/default.png" alt="Card image" width="300">
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title">{{ product.name }}</h4>
+                    <p class="card-text">Price : {{ product.price }} Baht/{{ product.unit }}</p>
+                    <p class="card-text">{{ product.detail | truncatechars_html:90 }}</p>
+                    {% if product.quantity > 0 %}
+                    <p class="card-text">Quantity : {{ product.quantity }} {{ product.unit }}</p>
+                    {% else %}
+                    <p class="card-text">
+                        <font color="red">Out Of Stock</font>
+                    </p>
+                    {% endif %}
+                    {% if product.instock == True %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'addtocart-page' product.id %}" class="btn btn-success">Buy</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="#" class="btn btn-warning">Out Of Stock</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <ul class="pagination" style="text-align: center;">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">{{AllProduct.number}}</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{AllProduct.next_page_number}}">Next</a></li>
+    </ul>
+</div>
+{% endblock content %}
+
+<!-- <center><a href="?page={{AllProduct.previous_page_number}}">Previous</a> | {{AllProduct.number}} |<a
+            href="?page={{AllProduct.next_page_number}}">Next</a></center> -->

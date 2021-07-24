@@ -1,0 +1,44 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+<center>
+    <h1>Order List</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Date & Time</th>
+            <th scope="col">Order Id</th>
+            <th scope="col">Price</th>
+            <th scope="col">Shipcost</th>
+            <th scope="col">Total</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tracking No.</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in allorder %}
+        <tr>
+            <td>{{ order.stamp }}</td>
+            <td><a href="{% url 'myorder-page' order.orderId %}">{{ order.orderId }}</a></td>
+            <td>{{ order.total | intcomma}}</td>
+            <td>{{ order.shipcost | intcomma}}</td>
+            <td>{{ order.total|add:order.shipcost | intcomma }}</td>
+            <td>
+                {% if order.paid %}
+                <a href="#" class="btn btn-success">Paid</a>
+                {% else %}
+                <a href="{% url 'uploadslip-page' order.orderId %}" class="btn btn-primary">Upload Slip</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if order.trackingNumber != None %}
+                {{ order.trackingNumber }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

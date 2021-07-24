@@ -1,0 +1,84 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <center>
+        <h1>Lastest Product</h1>
+    </center>
+    <div class="row">
+        {% for product in AllProduct %}
+        <div class="col-sm-4" style="padding: 10px;">
+            <div class="card" style="width: 350px;">
+                {% if product.img %}
+                <img class="card-img-top" src="{{ product.img.url }}" alt="Card image" width="300">
+                {% elif product.imgUrl != None %}
+                <img class="card-img-top" src="{{ product.imgUrl }}" alt="Card image" width="300">
+                {% else %}
+                <img class="card-img-top" src="/media/default.png" alt="Card image" width="300">
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title">{{ product.name }}</h4>
+                    <p class="card-text">Price : {{ product.price }} Baht/{{ product.unit }}</p>
+                    <p class="card-text">{{ product.detail | truncatechars_html:90 }}</p>
+                    {% if product.quantity > 0 %}
+                    <p class="card-text">Quantity : {{ product.quantity }} {{ product.unit }}</p>
+                    {% else %}
+                    <p class="card-text">
+                        <font color="red">Out Of Stock</font>
+                    </p>
+                    {% endif %}
+                    {% if product.instock == True %}
+                    <a href="#" class="btn btn-success">Buy</a>
+                    {% else %}
+                    <a href="#" class="btn btn-warning">Out Of Stock</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <center>
+        <a class="btn btn-primary" href=" {% url 'product-page' %}">
+            <h3 style="margin: 0;">All Product</h3>
+        </a>
+    </center>
+    <hr>
+</div>
+
+<div class=" container-fluid">
+    <center>
+        <h1>Pre-Order</h1>
+    </center>
+    <div class="row">
+        {% for product in preorder %}
+        <div class="col-sm-4" style="padding: 10px;">
+            <div class="card" style="width: 350px;">
+                {% if product.img %}
+                <img class="card-img-top" src="{{ product.img.url }}" alt="Card image" width="300">
+                {% elif product.imgUrl != None %}
+                <img class="card-img-top" src="{{ product.imgUrl }}" alt="Card image" width="300">
+                {% else %}
+                <img class="card-img-top" src="/media/default.png" alt="Card image" width="300">
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title">{{ product.name }}</h4>
+                    <p class="card-text">Price : {{ product.price }} Baht/{{ product.unit }}</p>
+                    <p class="card-text">{{ product.detail | truncatechars_html:90 }}</p>
+                    {% if product.quantity > 0 %}
+                    <p class="card-text">Quantity : {{ product.quantity }} {{ product.unit }}</p>
+                    {% else %}
+                    <p class="card-text">
+                        <font color="red">Out Of Stock</font>
+                    </p>
+                    <a href="#" class="btn btn-warning">Pre-order</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

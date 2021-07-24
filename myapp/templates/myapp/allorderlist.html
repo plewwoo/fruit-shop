@@ -1,0 +1,60 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+{% block content %}
+<center>
+    <h1>Order List</h1>
+</center>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Date & Time</th>
+            <th scope="col">Id</th>
+            <th scope="col">Price</th>
+            <th scope="col">Shipcost</th>
+            <th scope="col">Total</th>
+            <th scope="col">Slip</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tracking No.</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in allorder %}
+        <tr>
+            <td>{{ order.stamp }}</td>
+            <td>
+                <a href="{% url 'updatetracking-page' order.orderId %}">{{ order.orderId }}</a> ({{ order.name }})
+            </td>
+            <td>{{ order.total | intcomma}}</td>
+            <td>{{ order.shipcost | intcomma}}</td>
+            <td>{{ order.total|add:order.shipcost | intcomma }}</td>
+            <td>
+                {% if order.slip %}
+                <a href="{{ order.slip.url }}" class="btn btn-success">Slip</a>
+                {% else %}
+                <a href="#"><i class="fas fa-times-circle" style=" font-size: 26px; color: red;"></i></i></a>
+                {% endif %}
+            </td>
+            <td>
+                {% if order.paid and order.slip %}
+                <a href="{% url 'updatestatus' order.orderId 'cancel' %}">
+                    <i class="fas fa-check-circle" style=" font-size: 26px; color: green;"></i>
+                </a>
+                {% elif order.paid == False and not order.slip %}
+                <a href="#"><i class="fas fa-times-circle" style=" font-size: 26px; color: red;"></i></i></a>
+                {% else %}
+                <a class="btn btn-light" href="{% url 'updatestatus' order.orderId 'confirm' %}" style="color: blue;">
+                    <i class="fas fa-plus-square" style=" font-size: 20px;"></i>
+                </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if order.trackingNumber != None %}
+                {{ order.trackingNumber }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
