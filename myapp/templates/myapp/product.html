@@ -43,12 +43,50 @@
     </div>
 
     <ul class="pagination" style="text-align: center;">
-        <li class="page-item"><a class="page-link" href="#">&laquo; Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">{{AllProduct.number}}</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{AllProduct.next_page_number}}">Next &raquo;</a></li>
+        {% if AllProduct.has_previous and AllProduct.has_next != True %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.previous_page_number}}">&#8249;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:-2}}">{{AllProduct.number|add:-2}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:-1}}">{{AllProduct.number|add:-1}}</a>
+        </li>
+        <li class="page-item active">
+            <a class="page-link" href="?page={{AllProduct.number}}">{{AllProduct.number}}</a>
+        </li>
+        {% endif %}
+
+        {% if AllProduct.has_previous and AllProduct.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{AllProduct.previous_page_number}}">&#8249;</a></li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:-1}}">{{AllProduct.number|add:-1}}</a>
+        </li>
+        <li class="page-item active">
+            <a class="page-link" href="?page={{AllProduct.number}}">{{AllProduct.number}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:1}}">{{AllProduct.number|add:1}}</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page={{AllProduct.next_page_number}}">&#8250;</a></li>
+        {% endif %}
+
+        {% if AllProduct.has_next and AllProduct.has_previous != True %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{AllProduct.number}}">{{AllProduct.number}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:1}}">{{AllProduct.number|add:1}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{AllProduct.number|add:2}}">{{AllProduct.number|add:2}}</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page={{AllProduct.next_page_number}}">&#8250;</a></li>
+        {% endif %}
     </ul>
+
+    Page {{AllProduct.number}} of {{AllProduct.paginator.num_pages}}
+
 </div>
 {% endblock content %}
-
-<!-- <center><a href="?page={{AllProduct.previous_page_number}}">Previous</a> | {{AllProduct.number}} |<a
-            href="?page={{AllProduct.next_page_number}}">Next</a></center> -->
