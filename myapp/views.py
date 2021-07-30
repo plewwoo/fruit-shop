@@ -43,8 +43,7 @@ def Product(request):
         'id').reverse()  # ดึงข้อมูลมาทั้งหมด
     paginator = Paginator(products, 3)  # 1 หน้าโชว์แค่ 3 ชิ้นเท่านั้น
     page = request.GET.get('page')  # http://localhost:8000/product/?page=2
-    # filter เฉพาะ หน้าที่ 2 ของ page นั้นๆ
-    products = paginator.get_page(page)
+    products = paginator.get_page(page)  # filter เฉพาะ หน้าของ page นั้นๆ
     context = {'AllProduct': products}
     return render(request, 'myapp/product.html', context)
 
